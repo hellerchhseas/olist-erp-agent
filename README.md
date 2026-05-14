@@ -167,3 +167,44 @@ Add LangGraph state/checkpointing
 Add a lightweight Streamlit UI
 
 Split into specialized agents later
+
+## Scripted workflows
+
+The project includes repeatable workflow scripts for demo and testing.
+
+Run from the repo root:
+
+    cd ~/dev/olist-erp-agent
+    source .venv/bin/activate
+
+For clean business-readable output, use:
+
+    DEBUG_TRACE=false
+
+For learning/debugging output, use:
+
+    DEBUG_TRACE=true
+
+### Late shipment triage
+
+    PYTHONPATH=. python scripts/run_late_shipment_workflow.py
+
+This workflow finds materially late shipments, inspects related orders and invoices, creates fulfillment review tasks, adds operational notes, and prints a structured operations summary.
+
+### Customer support escalation
+
+    PYTHONPATH=. python scripts/run_support_escalation_workflow.py
+
+This workflow finds high-priority support cases, inspects related orders and invoices, creates support follow-up tasks, adds operational notes, and prints a structured support escalation summary.
+
+### Seller risk review
+
+    PYTHONPATH=. python scripts/run_seller_risk_workflow.py
+
+This workflow finds high-risk sellers, inspects seller performance, creates seller review tasks, adds operational notes, and prints a structured seller risk summary.
+
+### Finance exception review
+
+    PYTHONPATH=. python scripts/run_finance_exception_workflow.py
+
+This workflow finds invoice exceptions, inspects related invoices and orders, creates finance review tasks when needed, adds operational notes, and prints a structured finance exception summary.
