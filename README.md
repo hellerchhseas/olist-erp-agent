@@ -208,3 +208,32 @@ This workflow finds high-risk sellers, inspects seller performance, creates sell
     PYTHONPATH=. python scripts/run_finance_exception_workflow.py
 
 This workflow finds invoice exceptions, inspects related invoices and orders, creates finance review tasks when needed, adds operational notes, and prints a structured finance exception summary.
+
+## Duplicate prevention / task memory
+
+The agent now supports basic operational memory through MCP tools that inspect existing tasks and notes before creating new work.
+
+Before creating a new task, the agent should call:
+
+    list_open_tasks_for_entity_tool
+
+If an open task already exists for the same `entity_type` and `entity_id`, the agent should not create a duplicate task. Instead, it should add a note documenting that the record was re-reviewed.
+
+This makes the workflows more idempotent: running the same workflow multiple times should not create duplicate open tasks for the same business record.
+
+Relevant MCP tools:
+
+- `list_open_tasks_for_entity_tool`
+- `list_notes_for_entity_tool`
+- `update_agent_task_status_tool`
+- `create_agent_task_tool`
+- `add_agent_note_tool`
+
+The workflow scripts use consistent entity keys:
+
+| Workflow | `entity_type` | `entity_id` |
+|---|---|---|
+| Late shipment triage | `order` | `order_id` |
+| Customer support escalation | `support_case` | `case_id` |
+| Seller risk review | `seller` | `seller_id` |
+| Finance exception review | `invoice` | `invoice_id` |

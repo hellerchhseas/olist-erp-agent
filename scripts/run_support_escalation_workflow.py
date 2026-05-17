@@ -30,8 +30,15 @@ Find 3 high-priority support cases.
 For each support case:
 1. Inspect the related order.
 2. Inspect the related invoice.
-3. Create a high-priority support follow-up task.
-4. Add an operational note explaining the likely customer issue.
+3. Before creating a support follow-up task, check whether an open task already exists for the support case.
+4. Use entity_type = "support_case" and entity_id = case_id when checking for existing tasks.
+5. If an open task already exists:
+   - Do not create a duplicate task.
+   - Add an operational note saying the case was re-reviewed and the existing task remains open.
+   - Include the existing task ID in your final response.
+6. If no open task exists:
+   - Create a high-priority support follow-up task.
+   - Add an operational note explaining the likely customer issue.
 
 Your final response must be human-readable and use this exact structure:
 
@@ -54,8 +61,10 @@ For each support case, include:
 
 ### Actions taken
 For each case, include:
-- Task created
-- Task priority
+- Whether an existing open task was found
+- Existing task ID if applicable
+- Whether a new task was created
+- Task priority if a task was created
 - Note added
 
 ### Business interpretation

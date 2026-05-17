@@ -34,8 +34,15 @@ For each invoice exception:
 1. Inspect the invoice.
 2. Inspect the related order.
 3. Determine whether finance follow-up is required.
-4. If follow-up is required, create a finance review task.
-5. Add an operational note explaining the issue.
+4. Before creating a finance review task, check whether an open task already exists for the invoice.
+5. Use entity_type = "invoice" and entity_id = invoice_id when checking for existing tasks.
+6. If an open task already exists:
+   - Do not create a duplicate task.
+   - Add an operational note saying the invoice was re-reviewed and the existing task remains open.
+   - Include the existing task ID in your final response.
+7. If no open task exists and finance follow-up is required:
+   - Create a finance review task.
+   - Add an operational note explaining the issue.
 
 Your final response must be human-readable and use this exact structure:
 
@@ -60,8 +67,10 @@ For each invoice exception, include:
 ### Actions taken
 For each invoice exception, include:
 - Whether finance follow-up was required
-- Task created if applicable
-- Task priority if applicable
+- Whether an existing open task was found
+- Existing task ID if applicable
+- Whether a new task was created
+- Task priority if a task was created
 - Note added
 
 ### Business interpretation
